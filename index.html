@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحه اصلی</title>
+  <link rel="shortcut icon" href="bg.jpg" type="image/x-icon">
+  <style>
+    *::selection {
+      background-color: rgb(132, 0, 255);
+      color: rgb(255, 196, 0);
+    }
+
+    @font-face {
+      font-family: vazir;
+      src: url(Vazir-Bold.ttf);
+      font-style: normal;
+      font-weight: normal;
+    }
+
+    body {
+      font-family: vazir !important;
+    }
+
+    /* فقط برای Chrome/Edge/Safari */
+    .card::-webkit-scrollbar {
+      width: 3px;
+      margin-left: 10px;
+    }
+
+    .card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .card::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+
+    .card::-webkit-scrollbar-track {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: vazir;
+      background: #f0f2f5;
+      padding: 30px 20px;
+      background: url(bg.jpg);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #dbe4ff;
+    }
+
+    #cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgb(65, 68, 100);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(213, 213, 213, 0.1);
+      overflow: auto;
+      height: 170px;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      overflow: auto;
+      color: #b5b5b5;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #d0d0d0;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      text-wrap: wrap;
+    }
+
+    .loading {
+      text-align: center;
+      color: #ffffff;
+      grid-column: 1/-1;
+      padding: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>
+    <a target="_blank" href="https://delnevesht.vercel.app/admin.html" style="text-decoration: none ; color: rgb(255, 255, 255); border: 2px solid rgba(255, 218, 218, 0.783); padding: 10px; border-radius: 20px; background-color: rgba(56, 56, 56, 0.559);">
+      ⭐آنایاد | Anayad⭐
+    </a> 
+  </h1>
+  <div id="cards">
+    <p class="loading">در حال بارگذاری...</p>
+  </div>
+  <script>
+    const BIN_ID = '6a1b25b321f9ee59d29e770e';
+    const API_KEY = '$2a$10$SfM1tRVwgK2pRkyJ73yCpeLmwW9QZVgCXd2qFKds9..0rJ4/m.IGG';
+
+    const badWords = ['کیر', 'کص', 'احمق', 'خنگ']; // کلمات بد رو اینجا اضافه کن
+
+    function censor(text) {
+      let result = text;
+      badWords.forEach(word => {
+        const regex = new RegExp(word, 'gi');
+        result = result.replace(regex, '####');
+      });
+      return result;
+    }
+
+    async function loadPosts() {
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const data = await res.json();
+        renderCards(data.record.posts || []);
+      } catch (e) {
+        document.getElementById('cards').innerHTML = '<p class="loading">خطا در بارگذاری</p>';
+      }
+    }
+
+    function renderCards(posts) {
+      const container = document.getElementById('cards');
+      if (posts.length === 0) {
+        container.innerHTML = '<p class="loading">هنوز کارتی اضافه نشده</p>';
+        return;
+      }
+      const reversed = [...posts].reverse();
+      container.innerHTML = reversed.map(post => `
+        <div class="card">
+          <h2>${censor(post.title)}</h2>
+          <p>${censor(post.content)}</p>
+        </div>
+      `).join('');
+    }
+
+    loadPosts();
+  </script>
+
+</body>
+
+</html>
