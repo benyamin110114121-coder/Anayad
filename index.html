@@ -7,7 +7,7 @@
   <title>صفحه اصلی</title>
   <link rel="shortcut icon" href="bg.jpg" type="image/x-icon">
   <style>
-    *::selection {
+    ::selection {
       background-color: rgb(132, 0, 255);
       color: rgb(255, 196, 0);
     }
@@ -18,7 +18,10 @@
       font-style: normal;
       font-weight: normal;
     }
+html{
+      height: 10000px;
 
+}
     body {
       font-family: vazir !important;
     }
@@ -27,6 +30,21 @@
     .card::-webkit-scrollbar {
       width: 3px;
       margin-left: 10px;
+    }
+
+    /* فقط برای Chrome/Edge/Safari */
+    ::-webkit-scrollbar {
+      width: 3px;
+      margin-left: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background:black;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 145, 145, 0.3);
+      border-radius: 10px;
     }
 
     .card::-webkit-scrollbar-track {
@@ -110,7 +128,7 @@
 
 <body>
   <h1>
-    <a target="_blank" href="https://delnevesht.vercel.app/admin.html" style="text-decoration: none ; color: rgb(255, 255, 255); border: 2px solid rgba(255, 218, 218, 0.783); padding: 10px; border-radius: 20px; background-color: rgba(56, 56, 56, 0.559);">
+    <a target="_blank" href="https://anayad.vercel.app/admin.html" style="text-decoration: none ; color: rgb(255, 255, 255); border: 2px solid rgba(255, 218, 218, 0.783); padding: 10px; border-radius: 20px; background-color: rgba(56, 56, 56, 0.559);">
       ⭐آنایاد | Anayad⭐
     </a> 
   </h1>
